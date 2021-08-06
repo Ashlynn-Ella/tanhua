@@ -1,6 +1,7 @@
 import axios from "axios";
-import {BASE_URI} from './path-map'
+import { BASE_URI } from './path-map'
 import Toast from './Toast'
+
 const instance = axios.create({
   baseURL: BASE_URI
 });
@@ -25,6 +26,7 @@ instance.interceptors.response.use(function (response) {
 });
 
 export default {
-  get:instance.get,
-  post:instance.post
+  get: instance.get,
+  post: instance.post,
+  
 }

@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.beefe.picker.PickerViewPackage;
 import cn.qiuxiang.react.geolocation.AMapGeolocationPackage;
 import com.horcrux.svg.SvgPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -12,6 +15,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import cn.jiguang.imui.messagelist.ReactIMUIPackage;
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -30,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           // packages.add(new AMapGeolocationPackage());
+          // packages.add(new ReactIMUIPackage())
           return packages;
         }
 

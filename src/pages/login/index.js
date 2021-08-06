@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useMount } from 'react';
-import { View, Text, StatusBar, Image, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StatusBar, Image, StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements';
 import { pxToDp } from '../../utils/styles-kits'
 import { validatePhone } from '../../utils/valid'
 import request from '../../utils/http';
-import { ACCOUNT_LOGIN,ACCOUNT_VALIDATEVCODE } from '../../utils/path-map'
+import { ACCOUNT_LOGIN, ACCOUNT_VALIDATEVCODE } from '../../utils/path-map'
 import { THbutton } from '../../component/button/index'
 import { CodeField, Cursor } from 'react-native-confirmation-code-field';
 import Toast from '../../utils/Toast'
+import { useAuth } from '../../context/user-context';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LoginScreen = (props) => {
- 
   const [showLogin, setShowLogin] = useState(true)
-  const [phoneNumber, setPhoneNumber] = useState('15915912345');
+  const [phoneNumber, setPhoneNumber] = useState('18665711978');
   const [isValid, setValid] = useState(true)
-
+  
   const submitEditing = async () => {
     const phoneValid = validatePhone(phoneNumber)
     if (!phoneValid) {
@@ -22,9 +23,11 @@ const LoginScreen = (props) => {
       return
     }
     const res = await request.post(ACCOUNT_LOGIN, { phone: phoneNumber })
-    if (res.code === '10000') {
-      setShowLogin(false)
+    if (res.code == ! '10000') {
+      return
     }
+    setShowLogin(false)
+
   }
   return (
     <View>
@@ -57,11 +60,11 @@ const Login = ({ phoneNumber, isValid, submitEditing, setPhoneNumber }) => {
     </View>
   )
 }
-const Code = ({ phoneNumber,...props }) => {
-  console.log(props)
+const Code = ({ phoneNumber, ...props }) => {
   const [code, setCode] = useState('')
   const [isCountDowning, setCountDowning] = useState(true)
   const [seconds, setSeconds] = useState(5)
+  const { setUser } = useAuth()
   const countDown = () => {
     if (isCountDowning) return
     setCountDowning(true)
@@ -70,7 +73,6 @@ const Code = ({ phoneNumber,...props }) => {
     let timeId = setInterval(() => {
       time--
       setSeconds(time)
-      console.log(seconds)
       if (time < 0) {
         clearInterval(timeId)
         setCountDowning(false)
@@ -93,19 +95,32 @@ const Code = ({ phoneNumber,...props }) => {
       Toast.message('验证码不正确', 2000, 'center')
       return
     }
-    const res = await request.post(ACCOUNT_VALIDATEVCODE,{
-      'phone':phoneNumber,
-      'vcode':code
+    const res = await request.post(ACCOUNT_VALIDATEVCODE, {
+      'phone': phoneNumber,
+      'vcode': code
     })
-    console.log(res)
-    if(res.code !== '10000'){
-      Toast.message(res.message,2000,'center')
+    if (res.code !== '10000') {
+      Toast.message(res.message, 2000, 'center')
       return
     }
-    if(res.data.isNew){
+
+    try {
+      await AsyncStorage.setItem('userInfo', JSON.stringify(
+        { mobile: phoneNumber, token: res.data.token, userId: res.data.id }
+      ))
+    } catch (err) {
+      Toast.sad(err, 2000, 'center')
+    }
+
+    setUser({
+      mobile: phoneNumber,
+      token: res.data.token,
+      userId: res.data.id
+    })
+    if (res.data.isNew) {
       props.navigation.navigate('UserInfo')
     } else {
-      
+      props.navigation.navigate('Tabbar')
     }
   }
   return (
@@ -138,6 +153,7 @@ const Code = ({ phoneNumber,...props }) => {
     </View>
   )
 }
+
 export default LoginScreen
 
 const styles = StyleSheet.create({

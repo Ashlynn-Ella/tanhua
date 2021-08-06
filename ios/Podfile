@@ -24,6 +24,12 @@ target 'firstApp' do
 
   pod 'react-native-location', :path => '../node_modules/react-native-location'
 
+  pod 'Picker', :path => '../node_modules/react-native-picker'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'firstAppTests' do
     inherit! :complete
     # Pods for testing
