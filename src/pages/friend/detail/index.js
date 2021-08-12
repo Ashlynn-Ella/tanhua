@@ -10,14 +10,17 @@ import { IconFont } from '../../../component/icon-font/index'
 import LinearGradient from "react-native-linear-gradient"
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useThrottle } from '../../../utils'
-import { useMy } from '../../../context/my-context'
+// import { useMy } from '../../../context/my-context'
 import JMessage from '../../../utils/JMessage'
 import { useNavigation } from '@react-navigation/core'
-import {PanelHeader} from '../../../component/panel'
+import { PanelHeader } from '../../../component/panel'
+import { useSelector } from 'react-redux'
+import { admin } from '../../../store/user.slice'
 
 export const Detail = (props) => {
-  const { my } = useMy()
-  const navigetion = useNavigation()
+  // const { my } = useMy()
+  const my = useSelector(admin)
+  const navigation = useNavigation()
   //useReducer可以存储一些同步执行的变量，异步不行，再去文档研究一下，redux 
   const [detail, setDetail] = useState({
     detailData: {},
@@ -136,7 +139,7 @@ export const Detail = (props) => {
             <View style={{ ...styles.flex }}>
               <TouchableOpacity
                 style={{ ...styles.flexCenter }}
-                onPress={() => navigetion.navigate('Chat', detailData)}
+                onPress={() => navigation.navigate('Chat', detailData)}
               >
                 <LinearGradient
                   colors={["#f2ab5a", "#ec7c50"]}

@@ -6,6 +6,8 @@ import { BASE_URI } from '../../../utils/path-map'
 import JMessage from '../../../utils/JMessage'
 import { THNav } from '../../../component/tanhua-nav'
 import { launchImageLibrary } from 'react-native-image-picker'
+import { useSelector } from 'react-redux'
+import { admin } from '../../../store/user.slice'
 
 const renderSend = (props) => {
   return (
@@ -61,7 +63,8 @@ const renderInputToolbar = (props) => (
 )
 export const Chat = (props) => {
   // console.log(props.route.params)
-  const { my } = useMy()
+  // const { my } = useMy()
+  const my = useSelector(admin)
   const [messages, setMessages] = useState([])
   const userParams = props.route.params
   useEffect(async () => {
@@ -146,9 +149,6 @@ export const Chat = (props) => {
             }
             onSend([message])
           })
-        },
-        '取消': () => {
-          console.log('Cancel');
         },
       }}
       optionTintColor="#222B45"

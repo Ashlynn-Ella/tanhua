@@ -11,10 +11,13 @@ import { useMy } from './src/context/my-context'
 import { useClinet } from './src/utils/client'
 import { MY_INFO } from './src/utils/path-map'
 import JMessage from './src/utils/JMessage';
+import { useDispatch } from 'react-redux'
+import { adminActions } from './src/store/user.slice'
 
 export const Tabbar = () => {
   const [selectedTab, setSelectTab] = useState('group')
-  const { setMy } = useMy()
+  // const { setMy } = useMy()
+  const dispatch = useDispatch()
   const { get } = useClinet()
   const page = [
     {
@@ -52,7 +55,8 @@ export const Tabbar = () => {
   ]
   useEffect(async () => {
     const res = await get(MY_INFO)
-    setMy(res.data)
+    // setMy(res.data)
+    dispatch(adminActions.getAdmin(res.data))
     await JMessage.login(res.data.guid, res.data.mobile)
   }, [get])
   return (

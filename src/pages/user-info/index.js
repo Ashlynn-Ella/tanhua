@@ -116,7 +116,6 @@ export const UserInfo = () => {
       </Overlay.View>
     );
     Overlay.show(overlayView);
-    console.log('图片信息',image)
     //上传图片
     const resImage = await upLoadImage(image)
     console.log('上传后返回信息',resImage)

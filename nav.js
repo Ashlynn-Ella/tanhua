@@ -13,7 +13,9 @@ import { TestQA } from './src/pages/friend/test-soul/test-qa/index'
 import { TestRes } from './src/pages/friend/test-soul/test-result/index'
 import JMessage from './src/utils/JMessage';
 import { Detail } from './src/pages/friend/detail';
-import {Chat} from './src/pages/message/chat/index'
+import { Chat } from './src/pages/message/chat/index'
+import { Comment } from './src/pages/group/home/comment/comment';
+import { Publish } from './src/pages/group/home/recommend/publish'
 
 const Stack = createStackNavigator();
 
@@ -25,13 +27,15 @@ const Nav = ({ users }) => {
       JMessage.init()
       setUser(users)
     }
-  }, [users.token]) 
+  }, [users.token])
 
   return (
     <NavigationContainer>
       <TopView>
         <Stack.Navigator headerMode="none" initialRouteName={initRouteName}>
+          <Stack.Screen name="Publish" component={Publish} />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="Comment" component={Comment} />
           <Stack.Screen name="Detail" component={Detail} />
           <Stack.Screen name="TestRes" component={TestRes} />
           <Stack.Screen name="TestQA" component={TestQA} />

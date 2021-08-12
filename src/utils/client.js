@@ -42,7 +42,6 @@ export const useClinet = () => {
           ...headers
         }
       }).then(res => {
-        console.log(res)
         if (res.status === 401) {
           navigation.navigate('Login')
         } else {

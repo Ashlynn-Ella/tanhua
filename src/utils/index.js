@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const useThrottle = (value, delay) => {
+export const useThrottle = (value, delay = 200) => {
   const [throttleVale, setThrottleValue] = useState(0);
   let time = null
   useEffect(() => {

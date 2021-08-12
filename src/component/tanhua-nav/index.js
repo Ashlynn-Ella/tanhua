@@ -5,7 +5,7 @@ import { IconFont } from '../icon-font/index'
 import { useNavigation } from '@react-navigation/native'
 
 
-export const THNav = ({ title }) => {
+export const THNav = ({ title,...props }) => {
   const navigation = useNavigation()
   return (
     <View>
@@ -18,7 +18,7 @@ export const THNav = ({ title }) => {
           <Text style={styles.hdtext} onPress={() => navigation.goBack()}>返回</Text>
         </TouchableOpacity>
         <Text style={styles.hdtext}>{title}</Text>
-        <Text style={{ width: pxToDp(80) }}></Text>
+        <Text style={{ width: pxToDp(80),color:'#fff',textAlign:'right',marginRight:pxToDp(10) }}>{props.rightText}</Text>
       </ImageBackground>
 
     </View>

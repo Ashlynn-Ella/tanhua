@@ -7,11 +7,14 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useMy } from '../../../../context/my-context'
 import { BASE_URI, FRIENDS_QUESTIONANS } from '../../../../utils/path-map'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { admin } from '../../../../store/user.slice'
 
 export const TestQA = (props) => {
   const [quesList, setQuesList] = useState([])
   const [index, setIndex] = useState(0)
-  const { my } = useMy()
+  // const { my } = useMy()
+  const my = useSelector(admin)
   const { get, run } = useClinet()
   const navigation = useNavigation()
   const question = props.route.params
